@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.atw.weight.bean.incomeExpense.Customer;
 import com.atw.weight.bean.incomeExpense.InOutHistory;
 import com.atw.weight.bean.incomeExpense.InOutItem;
+import com.atw.weight.bean.incomeExpense.User;
 import com.atw.weight.dao.IIncomeExpenseDao;
 import com.atw.weight.service.IIncomeExpenseService;
 import com.atw.weight.vo.CommonResult;
@@ -129,6 +130,15 @@ public class IncomeExpenseServiceImpl implements IIncomeExpenseService {
 		inOutHistoryList.setCount(list.size());
 		inOutHistoryList.setResult(list);
 		return inOutHistoryList;
+	}
+
+	@Override
+	public CommonResult hasUser(String userToken) {
+		// TODO Auto-generated method stub
+		CommonResult commonResult = new CommonResult();
+		User user = incomeExpenseDao.getUserByToken(userToken);
+		commonResult.setStatus(((user.getId() == 0) || (user == null)) ? 1 : 0);
+		return commonResult;
 	}
 
 }

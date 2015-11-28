@@ -34,6 +34,16 @@ public class IncomeExpenseController {
 	@Resource(name = "incomeExpenseService")
 	private IIncomeExpenseService incomeExpenseService;
 
+	@RequestMapping("hasUser.do")
+	@ResponseBody
+	public CommonResult hasUser(@RequestParam("userToken") String userToken, HttpServletRequest request,
+			HttpServletResponse response) {
+		log.info("验证用户身份");
+		CommonResult commonResult = new CommonResult();
+		commonResult = incomeExpenseService.hasUser(userToken);
+		return commonResult;
+	}
+
 	@RequestMapping("benefit.do")
 	@ResponseBody
 	public BenefitResult getBenefit(HttpServletRequest request, HttpServletResponse response) {

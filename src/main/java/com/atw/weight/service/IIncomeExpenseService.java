@@ -12,6 +12,14 @@ import com.atw.weight.vo.storage.CustomerListResult;
 public interface IIncomeExpenseService {
 
 	/**
+	 * 是否为系统用户
+	 * 
+	 * @param userToken
+	 * @return
+	 */
+	public CommonResult hasUser(String userToken);
+
+	/**
 	 * 未结账金额
 	 * 
 	 * @return
@@ -48,7 +56,7 @@ public interface IIncomeExpenseService {
 	 * @return
 	 */
 	public InOutHistoryListResult getOneHistory(int id);
-	
+
 	/**
 	 * 取单条收支明细
 	 * 

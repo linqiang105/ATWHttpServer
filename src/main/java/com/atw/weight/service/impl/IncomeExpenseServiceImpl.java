@@ -10,15 +10,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.atw.weight.bean.incomeExpense.Customer;
 import com.atw.weight.bean.incomeExpense.InOutHistory;
 import com.atw.weight.bean.incomeExpense.InOutItem;
+import com.atw.weight.bean.incomeExpense.User;
 import com.atw.weight.dao.IIncomeExpenseDao;
 import com.atw.weight.service.IIncomeExpenseService;
 import com.atw.weight.vo.CommonResult;
 import com.atw.weight.vo.incomeExpense.InOutHistoryListResult;
 import com.atw.weight.vo.incomeExpense.InOutItemListResult;
-import com.atw.weight.vo.storage.CustomerListResult;
 
 @Service("incomeExpenseService")
 public class IncomeExpenseServiceImpl implements IIncomeExpenseService {
@@ -70,16 +69,6 @@ public class IncomeExpenseServiceImpl implements IIncomeExpenseService {
 		return incomeExpenseDao.saveInOutItem(inOutItem);
 	}
 
-	public CustomerListResult getCustomers() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public CommonResult saveCustomer(Customer customer) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	public CommonResult saveInOutHistory(String name, Date createTime1, int intOutType, String inOutItem, String desc,
 			Double money, String memo, String project) {
 
@@ -129,6 +118,15 @@ public class IncomeExpenseServiceImpl implements IIncomeExpenseService {
 		inOutHistoryList.setCount(list.size());
 		inOutHistoryList.setResult(list);
 		return inOutHistoryList;
+	}
+
+	@Override
+	public CommonResult hasUser(String userToken) {
+		// TODO Auto-generated method stub
+		CommonResult commonResult = new CommonResult();
+		User user = incomeExpenseDao.getUserByToken(userToken);
+		commonResult.setStatus(((user.getId() == 0) || (user == null)) ? 1 : 0);
+		return commonResult;
 	}
 
 }

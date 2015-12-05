@@ -114,6 +114,14 @@ public interface IIncomeExpenseDao {
 	public User getUserByName(String name);
 
 	/**
+	 * 根据微信令牌取用户
+	 * 
+	 * @param userToken
+	 * @return
+	 */
+	public User getUserByToken(String userToken);
+
+	/**
 	 * 取项目信息
 	 * 
 	 * @param id

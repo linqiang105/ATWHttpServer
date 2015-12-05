@@ -302,7 +302,7 @@ public class IncomeExpenseDaoImpl implements IIncomeExpenseDao {
 						new Object[] { startDate, endDate });
 		List<InOutHistory> listInOutHistory = new ArrayList<InOutHistory>();
 		if ((null != list) && (list.size() > 0)) {
-			for (int i = 0; i < list.size(); i++) { 
+			for (int i = 0; i < list.size(); i++) {
 				InOutHistory inOutHistory = new InOutHistory();
 
 				inOutHistory.setId(Integer.valueOf(list.get(0).get("id").toString()));
@@ -468,6 +468,28 @@ public class IncomeExpenseDaoImpl implements IIncomeExpenseDao {
 			listInOutHistory.add(inOutHistory);
 		}
 		return listInOutHistory;
+	}
+
+	@Override
+	public User getUserByToken(String userToken) {
+		// TODO Auto-generated method stub
+		User user = new User();
+		List<Map<String, Object>> list = jdbcTemplate.queryForList(
+				"select id,username,password,update_time from income_expense.dbo.tbl_user where wechatToken=?",
+				new Object[] { userToken });
+		if ((null != list) && (list.size() > 0)) {
+			user.setId(Integer.valueOf(list.get(0).get("id").toString()));
+			user.setUsername(list.get(0).get("username").toString());
+			user.setPassword(list.get(0).get("password").toString());
+			try {
+				user.setUpdateTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS")
+						.parse(list.get(0).get("update_time").toString()));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return user;
 	}
 
 }

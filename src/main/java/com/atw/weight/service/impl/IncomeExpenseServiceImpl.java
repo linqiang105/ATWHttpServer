@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.atw.weight.bean.incomeExpense.Customer;
 import com.atw.weight.bean.incomeExpense.InOutHistory;
 import com.atw.weight.bean.incomeExpense.InOutItem;
 import com.atw.weight.bean.incomeExpense.User;
@@ -19,7 +18,6 @@ import com.atw.weight.service.IIncomeExpenseService;
 import com.atw.weight.vo.CommonResult;
 import com.atw.weight.vo.incomeExpense.InOutHistoryListResult;
 import com.atw.weight.vo.incomeExpense.InOutItemListResult;
-import com.atw.weight.vo.storage.CustomerListResult;
 
 @Service("incomeExpenseService")
 public class IncomeExpenseServiceImpl implements IIncomeExpenseService {
@@ -69,16 +67,6 @@ public class IncomeExpenseServiceImpl implements IIncomeExpenseService {
 	public CommonResult saveInOutItem(InOutItem inOutItem) {
 		// TODO Auto-generated method stub
 		return incomeExpenseDao.saveInOutItem(inOutItem);
-	}
-
-	public CustomerListResult getCustomers() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public CommonResult saveCustomer(Customer customer) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	public CommonResult saveInOutHistory(String name, Date createTime1, int intOutType, String inOutItem, String desc,

@@ -1,28 +1,13 @@
 package com.atw.weight.service.impl;
 
-import java.util.Date;
-
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.atw.weight.bean.weight.BackupInfo;
-import com.atw.weight.bean.weight.CarNo;
-import com.atw.weight.bean.weight.Goods;
-import com.atw.weight.bean.weight.Receiver;
-import com.atw.weight.bean.weight.Sender;
-import com.atw.weight.bean.weight.Spec;
 import com.atw.weight.bean.weight.WeightInfo;
 import com.atw.weight.dao.IWeightDao;
 import com.atw.weight.service.IWeightService;
-import com.atw.weight.vo.weight.AllWeightInfoResult;
-import com.atw.weight.vo.weight.BackupInfoListResult;
-import com.atw.weight.vo.weight.CarNoListResult;
-import com.atw.weight.vo.weight.GoodsListResult;
-import com.atw.weight.vo.weight.ReceiverListResult;
-import com.atw.weight.vo.weight.SenderListResult;
-import com.atw.weight.vo.weight.SpecListResult;
-import com.atw.weight.vo.weight.WeightInfoListResult;
+import com.atw.weight.vo.CommonResult;
 
 @Service("weightService")
 public class WeightServiceImpl implements IWeightService {
@@ -30,91 +15,35 @@ public class WeightServiceImpl implements IWeightService {
 	@Resource(name = "weightDao")
 	private IWeightDao weightDao;
 
-	public CarNoListResult getCarNos() {
+	@Override
+	public boolean canWork(String token) {
 		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public SenderListResult getSenders() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public ReceiverListResult getReceivers() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public GoodsListResult getGoods() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public SpecListResult getSpecs() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public BackupInfoListResult getBackupInfos(int index) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public boolean saveCarNo(CarNo carNo) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public boolean saveSender(Sender sender) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public boolean saveReceiver(Receiver receiver) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public boolean saveGoods(Goods goods) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public boolean saveSpec(Spec spec) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public boolean saveBackupInfo(int index, BackupInfo backupInfo) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public WeightInfoListResult getWeightInfos(Date startDate, Date endDate) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public AllWeightInfoResult getWeightInfo(String glideNo) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public boolean saveWeightInfo(WeightInfo weightInfo) {
-		// TODO Auto-generated method stub
-		return false;
+		return weightDao.hasToken(token);
 	}
 
 	@Override
-	public boolean canWork(String imei) {
+	public String getDbName(String token) {
 		// TODO Auto-generated method stub
-		return false;
+		return weightDao.getDbNameByToken(token);
 	}
 
 	@Override
-	public String getDbName(String imei) {
-		// TODO Auto-generated method stub
-		return null;
+	public CommonResult saveWeightInfo(String token, WeightInfo weightInfo) {
+		CommonResult commonResult = new CommonResult();
+		if (canWork(token)) {
+			if (weightDao.saveWeightInfo(getDbName(token), weightInfo)) {
+				commonResult.setStatus(0);
+			} else {
+				commonResult.setStatus(1);
+				commonResult.setMessage("插入数据库失败 ");
+			}
+
+		} else {
+			commonResult.setStatus(1);
+			commonResult.setMessage("Token验证失败");
+		}
+
+		return commonResult;
 	}
 
 }

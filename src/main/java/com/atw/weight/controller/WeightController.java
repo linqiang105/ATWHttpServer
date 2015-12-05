@@ -10,25 +10,35 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONObject;
+import com.atw.weight.bean.weight.WeightInfo;
 import com.atw.weight.service.IWeightService;
-import com.atw.weight.vo.weight.CarNoListResult;
+import com.atw.weight.vo.CommonResult;
 
 @Controller("weightController")
 @RequestMapping("weight")
 public class WeightController {
-	
+
 	private static Logger log = LoggerFactory.getLogger(WeightController.class);
 
-	@Resource(name="weightService")
+	@Resource(name = "weightService")
 	private IWeightService weightService;
-	
-	@RequestMapping("carNo.do")
+
+	@RequestMapping("saveWeightInfo.do")
 	@ResponseBody
-	public CarNoListResult getCarNo(HttpServletRequest request, HttpServletResponse response) {
-		log.info("取车号列表条目");
-		CarNoListResult carNoListResult = weightService.getCarNos();
-		carNoListResult.setStatus(0);
-		return carNoListResult;
+	public CommonResult saveWeightInfo(HttpServletRequest request, HttpServletResponse response) {
+		log.info("保存称重记录");
+		String strWeight = request.getParameter("weightInfo。");
+		String wechatToken = request.getParameter("token");
+		CommonResult commonResult = new CommonResult();
+		commonResult.setStatus(1);
+		try {
+			WeightInfo weightInfo = JSONObject.parseObject(strWeight, WeightInfo.class);
+			weightService.saveWeightInfo(wechatToken, weightInfo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return commonResult;
 	}
-	
+
 }

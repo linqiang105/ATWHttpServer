@@ -26,11 +26,21 @@ public interface IIncomeExpenseService {
 	public Double getBenefitOut();
 
 	/**
+	 * 根据Token取用户信息
+	 * 
+	 * @param token
+	 * @return
+	 */
+	public CommonResult hasUserByToken(String token);
+
+	/**
 	 * 当前可流动资金
 	 * 
 	 * @return
 	 */
 	public Double getLeft();
+
+	public Double getLeft2();
 
 	/**
 	 * 取一段时间的收支明细 
@@ -48,7 +58,7 @@ public interface IIncomeExpenseService {
 	 * @return
 	 */
 	public InOutHistoryListResult getOneHistory(int id);
-	
+
 	/**
 	 * 取单条收支明细
 	 * 

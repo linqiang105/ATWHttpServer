@@ -104,6 +104,81 @@ public class IncomeExpenseDaoImpl implements IIncomeExpenseDao {
 		return getBenefit() + getBenefitOut();
 	}
 
+	public Double getBenefit2() {
+
+		String sql = "";
+		List<Map<String, Object>> list = null;
+		Double income, expense;
+
+		// 取总收入金额
+		sql = "select sum(price) as c from income_expense_test.dbo.tbl_income_expense where (type = 0) ";
+		list = jdbcTemplate.queryForList(sql, new Object[] {});
+		if ((list != null) && (list.size() > 0)) {
+			if (null == list.get(0).get("c")) {
+				income = 0.0;
+			} else {
+				income = Double.valueOf(list.get(0).get("c").toString());
+			}
+		} else {
+			income = 0.0;
+		}
+
+		// 取总支出金额
+		sql = "select sum(price) as c from income_expense_test.dbo.tbl_income_expense where type = 1";
+		list = jdbcTemplate.queryForList(sql, new Object[] {});
+		if ((list != null) && (list.size() > 0)) {
+			if (null == list.get(0).get("c")) {
+				expense = 0.0;
+			} else {
+				expense = Double.valueOf(list.get(0).get("c").toString());
+			}
+		} else {
+			expense = 0.0;
+		}
+
+		return income - expense;
+	}
+
+	public Double getBenefitOut2() {
+
+		String sql = "";
+		List<Map<String, Object>> list = null;
+		Double income, expense;
+
+		// 取总收入金额
+		sql = "select sum(price) as c from income_expense_test.dbo.tbl_income_expense_out where (type = 0) ";
+		list = jdbcTemplate.queryForList(sql, new Object[] {});
+		if ((list != null) && (list.size() > 0)) {
+			if (null == list.get(0).get("c")) {
+				income = 0.0;
+			} else {
+				income = Double.valueOf(list.get(0).get("c").toString());
+			}
+		} else {
+			income = 0.0;
+		}
+
+		// 取总支出金额
+		sql = "select sum(price) as c from income_expense_test.dbo.tbl_income_expense_out where type = 1";
+		list = jdbcTemplate.queryForList(sql, new Object[] {});
+		if ((list != null) && (list.size() > 0)) {
+			if (null == list.get(0).get("c")) {
+				expense = 0.0;
+			} else {
+				expense = Double.valueOf(list.get(0).get("c").toString());
+			}
+		} else {
+			expense = 0.0;
+		}
+
+		return income - expense;
+	}
+
+	public Double getLeft2() {
+		// TODO Auto-generated method stub
+		return getBenefit2() + getBenefitOut2();
+	}
+
 	public List<InOutItem> getInOutItems() {
 		// TODO Auto-generated method stub
 		List<Map<String, Object>> list = jdbcTemplate
@@ -302,7 +377,7 @@ public class IncomeExpenseDaoImpl implements IIncomeExpenseDao {
 						new Object[] { startDate, endDate });
 		List<InOutHistory> listInOutHistory = new ArrayList<InOutHistory>();
 		if ((null != list) && (list.size() > 0)) {
-			for (int i = 0; i < list.size(); i++) { 
+			for (int i = 0; i < list.size(); i++) {
 				InOutHistory inOutHistory = new InOutHistory();
 
 				inOutHistory.setId(Integer.valueOf(list.get(0).get("id").toString()));
@@ -468,6 +543,28 @@ public class IncomeExpenseDaoImpl implements IIncomeExpenseDao {
 			listInOutHistory.add(inOutHistory);
 		}
 		return listInOutHistory;
+	}
+
+	@Override
+	public User getUserByToken(String token) {
+		// TODO Auto-generated method stub
+		User user = new User();
+		List<Map<String, Object>> list = jdbcTemplate.queryForList(
+				"select id,username,password,update_time from income_expense.dbo.tbl_user where wechatToken=?",
+				new Object[] { token });
+		if ((null != list) && (list.size() > 0)) {
+			user.setId(Integer.valueOf(list.get(0).get("id").toString()));
+			user.setUsername(list.get(0).get("username").toString());
+			user.setPassword(list.get(0).get("password").toString());
+			try {
+				user.setUpdateTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS")
+						.parse(list.get(0).get("update_time").toString()));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return user;
 	}
 
 }

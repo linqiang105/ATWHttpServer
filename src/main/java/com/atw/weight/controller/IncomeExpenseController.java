@@ -34,6 +34,15 @@ public class IncomeExpenseController {
 	@Resource(name = "incomeExpenseService")
 	private IIncomeExpenseService incomeExpenseService;
 
+	@RequestMapping("hasUser.do")
+	@ResponseBody
+	public CommonResult hasUser(@RequestParam("userToken") String token, HttpServletRequest request,
+			HttpServletResponse response) {
+		log.info("根据微信ID取用户信息");
+		CommonResult commonResult = incomeExpenseService.hasUserByToken(token);
+		return commonResult;
+	}
+
 	@RequestMapping("benefit.do")
 	@ResponseBody
 	public BenefitResult getBenefit(HttpServletRequest request, HttpServletResponse response) {
@@ -61,6 +70,16 @@ public class IncomeExpenseController {
 		BenefitResult benefit = new BenefitResult();
 		benefit.setStatus(0);
 		benefit.setResult(incomeExpenseService.getLeft());
+		return benefit;
+	}
+
+	@RequestMapping("left2.do")
+	@ResponseBody
+	public BenefitResult getLeft2(HttpServletRequest request, HttpServletResponse response) {
+		log.info("取当前可流动资金2");
+		BenefitResult benefit = new BenefitResult();
+		benefit.setStatus(0);
+		benefit.setResult(incomeExpenseService.getLeft2());
 		return benefit;
 	}
 

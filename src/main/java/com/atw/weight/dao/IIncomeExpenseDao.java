@@ -33,6 +33,8 @@ public interface IIncomeExpenseDao {
 	 */
 	public Double getLeft();
 
+	public Double getLeft2();
+
 	/**
 	 * 下载收支明目
 	 * 
@@ -112,6 +114,8 @@ public interface IIncomeExpenseDao {
 	 * @return
 	 */
 	public User getUserByName(String name);
+
+	public User getUserByToken(String token);
 
 	/**
 	 * 取项目信息

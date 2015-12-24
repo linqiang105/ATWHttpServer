@@ -2,6 +2,10 @@ package com.atw.weight.bean.incomeExpense;
 
 import java.util.Date;
 
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
+import com.atw.weight.config.JsonDateSerializer;
+
 /**
  * 收支记录
  * 
@@ -63,6 +67,7 @@ public class InOutHistory {
 		this.createUser = createUser;
 	}
 
+	@JsonSerialize(using = JsonDateSerializer.class)
 	public Date getCreateTime() {
 		return createTime;
 	}
@@ -87,6 +92,7 @@ public class InOutHistory {
 		this.updateUser = updateUser;
 	}
 
+	@JsonSerialize(using = JsonDateSerializer.class)
 	public Date getUpdateTime() {
 		return updateTime;
 	}

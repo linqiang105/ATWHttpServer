@@ -50,6 +50,15 @@ public interface IIncomeExpenseService {
 	 * @return
 	 */
 	public InOutHistoryListResult getHistory(Date startDate, Date endDate);
+	
+	/**
+	 * 取未入账的收支明细 
+	 * 
+	 * @param startDate
+	 * @param endDate
+	 * @return
+	 */
+	public InOutHistoryListResult getCurrentHistory();
 
 	/**
 	 * 取单条收支明细

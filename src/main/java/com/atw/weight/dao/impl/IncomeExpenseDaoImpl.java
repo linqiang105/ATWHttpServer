@@ -380,25 +380,25 @@ public class IncomeExpenseDaoImpl implements IIncomeExpenseDao {
 			for (int i = 0; i < list.size(); i++) {
 				InOutHistory inOutHistory = new InOutHistory();
 
-				inOutHistory.setId(Integer.valueOf(list.get(0).get("id").toString()));
+				inOutHistory.setId(Integer.valueOf(list.get(i).get("id").toString()));
 				try {
-					inOutHistory.setCreateUser(getUser(Integer.valueOf(list.get(0).get("create_user").toString())));
+					inOutHistory.setCreateUser(getUser(Integer.valueOf(list.get(i).get("create_user").toString())));
 				} catch (Exception e) {
 					log.info("create_user is null");
 				}
 				try {
-					inOutHistory.setUpdateUser(getUser(Integer.valueOf(list.get(0).get("update_user").toString())));
+					inOutHistory.setUpdateUser(getUser(Integer.valueOf(list.get(i).get("update_user").toString())));
 				} catch (Exception e) {
 					log.info("update_user is null");
 				}
 				try {
-					inOutHistory.setProject(getProject(Integer.valueOf(list.get(0).get("project").toString())));
+					inOutHistory.setProject(getProject(Integer.valueOf(list.get(i).get("project").toString())));
 
 				} catch (Exception e) {
 					log.info("project is null");
 				}
 				try {
-					InOutItem inOutItem = getInOutItem(Integer.valueOf(list.get(0).get("item").toString()));
+					InOutItem inOutItem = getInOutItem(Integer.valueOf(list.get(i).get("item").toString()));
 					inOutItem.setDirection(Integer.valueOf(list.get(0).get("type").toString()));
 					inOutHistory.setInOutItem(inOutItem);
 				} catch (Exception e) {
@@ -406,22 +406,22 @@ public class IncomeExpenseDaoImpl implements IIncomeExpenseDao {
 				}
 
 				try {
-					inOutHistory.setMoney(Double.valueOf(list.get(0).get("price").toString()));
+					inOutHistory.setMoney(Double.valueOf(list.get(i).get("price").toString()));
 				} catch (Exception e) {
 					log.info("money is null");
 				}
 
 				try {
 					inOutHistory.setCreateTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS")
-							.parse(list.get(0).get("create_time").toString()));
+							.parse(list.get(i).get("create_time").toString()));
 					inOutHistory.setUpdateTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS")
-							.parse(list.get(0).get("update_time").toString()));
+							.parse(list.get(i).get("update_time").toString()));
 				} catch (ParseException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				inOutHistory.setDesc(list.get(0).get("reason").toString());
-				inOutHistory.setMemo(list.get(0).get("memo").toString());
+				inOutHistory.setDesc(list.get(i).get("reason").toString());
+				inOutHistory.setMemo(list.get(i).get("memo").toString());
 
 				listInOutHistory.add(inOutHistory);
 			}
@@ -565,6 +565,44 @@ public class IncomeExpenseDaoImpl implements IIncomeExpenseDao {
 			}
 		}
 		return user;
+	}
+
+	@Override
+	public List<InOutHistory> getAllHistory() {
+		// TODO Auto-generated method stub
+		List<Map<String, Object>> list = jdbcTemplate
+				.queryForList("select id,create_user,create_time,type,project,reason,price,num,memo,"
+						+ "update_user,update_time,item " + "from income_expense.dbo.tbl_income_expense "
+						+ "order by id desc", new Object[] {});
+		List<InOutHistory> listInOutHistory = new ArrayList<InOutHistory>();
+		if ((null != list) && (list.size() > 0)) {
+			for (int i = 0; i < list.size(); i++) {
+				InOutHistory inOutHistory = new InOutHistory();
+
+				inOutHistory.setId(Integer.valueOf(list.get(i).get("id").toString()));
+				inOutHistory.setCreateUser(getUser(Integer.valueOf(list.get(i).get("create_user").toString())));
+				inOutHistory.setUpdateUser(getUser(Integer.valueOf(list.get(i).get("update_user").toString())));
+				try {
+					inOutHistory.setCreateTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS")
+							.parse(list.get(i).get("create_time").toString()));
+					inOutHistory.setUpdateTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS")
+							.parse(list.get(i).get("update_time").toString()));
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				inOutHistory.setProject(getProject(Integer.valueOf(list.get(i).get("project").toString())));
+				inOutHistory.setDesc(list.get(i).get("reason").toString());
+				inOutHistory.setMoney(Double.valueOf(list.get(i).get("price").toString()));
+				inOutHistory.setMemo(list.get(i).get("memo").toString());
+				InOutItem inOutItem = getInOutItem(Integer.valueOf(list.get(i).get("item").toString()));
+				inOutItem.setDirection(Integer.valueOf(list.get(i).get("type").toString()));
+				inOutHistory.setInOutItem(inOutItem);
+
+				listInOutHistory.add(inOutHistory);
+			}
+		}
+		return listInOutHistory;
 	}
 
 }

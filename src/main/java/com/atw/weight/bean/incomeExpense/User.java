@@ -2,6 +2,10 @@ package com.atw.weight.bean.incomeExpense;
 
 import java.util.Date;
 
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
+import com.atw.weight.config.JsonDateSerializer;
+
 /**
  * 登录用户
  * 
@@ -38,7 +42,8 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
+	
+	@JsonSerialize(using = JsonDateSerializer.class)
 	public Date getUpdateTime() {
 		return updateTime;
 	}

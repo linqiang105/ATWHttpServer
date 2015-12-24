@@ -146,4 +146,16 @@ public class IncomeExpenseServiceImpl implements IIncomeExpenseService {
 		return commonResult;
 	}
 
+	@Override
+	public InOutHistoryListResult getCurrentHistory() {
+		// TODO Auto-generated method stub
+		InOutHistoryListResult inOutHistoryList = new InOutHistoryListResult();
+		List<InOutHistory> list1 = incomeExpenseDao.getAllHistory(); 
+		List<InOutHistory> listAll = new ArrayList<InOutHistory>();
+		listAll.addAll(list1); 
+		inOutHistoryList.setCount(listAll.size());
+		inOutHistoryList.setResult(listAll);
+		return inOutHistoryList; 
+	}
+
 }

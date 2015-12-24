@@ -138,6 +138,15 @@ public class IncomeExpenseController {
 		return commonResult;
 	}
 
+	/**
+	 * 包括已入账和未入账的数据
+	 * 
+	 * @param startDate
+	 * @param endDate
+	 * @param request
+	 * @param response
+	 * @return
+	 */
 	@RequestMapping(value = "inOutHistory.do")
 	@ResponseBody
 	public InOutHistoryListResult getInOutHistory(@RequestParam("startDate") String startDate,
@@ -154,6 +163,16 @@ public class IncomeExpenseController {
 			inOutHistoryList.setStatus(1);
 			inOutHistoryList.setMessage("ParseException");
 		}
+		return inOutHistoryList;
+	}
+
+	@RequestMapping(value = "getCurrentInOutHistory.do")
+	@ResponseBody
+	public InOutHistoryListResult getCurrentInOutHistory(HttpServletRequest request, HttpServletResponse response) {
+		log.info("获取未入账收支数据");
+		InOutHistoryListResult inOutHistoryList = new InOutHistoryListResult();
+		inOutHistoryList = incomeExpenseService.getCurrentHistory();
+		inOutHistoryList.setStatus(0);
 		return inOutHistoryList;
 	}
 

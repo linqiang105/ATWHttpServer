@@ -32,7 +32,7 @@ public class TestController {
 		request.setAttribute("testBeanName", testBean.getName());
 		return "test";
 
-	}
+	} 
 
 	@ResponseBody
 	@RequestMapping("testJson.do")

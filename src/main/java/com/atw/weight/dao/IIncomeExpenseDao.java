@@ -74,6 +74,7 @@ public interface IIncomeExpenseDao {
 	 * @return
 	 */
 	public List<InOutHistory> getHistory(Date startDate, Date endDate);
+	public List<InOutHistory> getAllHistory();
 
 	/**
 	 * 取一段时间的收支明细 

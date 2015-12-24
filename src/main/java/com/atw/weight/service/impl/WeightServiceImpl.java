@@ -1,6 +1,7 @@
 package com.atw.weight.service.impl;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -23,6 +24,7 @@ import com.atw.weight.vo.weight.ReceiverListResult;
 import com.atw.weight.vo.weight.SenderListResult;
 import com.atw.weight.vo.weight.SpecListResult;
 import com.atw.weight.vo.weight.WeightInfoListResult;
+import com.atw.weight.vo.weight.WeightStaticInfo;
 
 @Service("weightService")
 public class WeightServiceImpl implements IWeightService {
@@ -115,6 +117,38 @@ public class WeightServiceImpl implements IWeightService {
 	public String getDbName(String imei) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public WeightInfoListResult getTestTodayRecord() {
+		// TODO Auto-generated method stub
+		WeightInfoListResult weightInfoListResult = new WeightInfoListResult();
+		List<WeightInfo> listWeightInfo = weightDao.getTestTodayRecord();
+		weightInfoListResult.setResult(listWeightInfo);
+		weightInfoListResult.setCount(listWeightInfo.size());
+		return weightInfoListResult;
+	}
+
+	@Override
+	public WeightInfoListResult getTestMonthRecord() {
+		// TODO Auto-generated method stub
+		WeightInfoListResult weightInfoListResult = new WeightInfoListResult();
+		List<WeightInfo> listWeightInfo = weightDao.getTestMonthRecord();
+		weightInfoListResult.setResult(listWeightInfo);
+		weightInfoListResult.setCount(listWeightInfo.size());
+		return weightInfoListResult;
+	}
+
+	@Override
+	public WeightStaticInfo getTestTodayStatic() {
+		// TODO Auto-generated method stub
+		return weightDao.getTestTodayStatic();
+	}
+
+	@Override
+	public WeightStaticInfo getTestMonthStatic() {
+		// TODO Auto-generated method stub
+		return weightDao.getTestMonthStatic();
 	}
 
 }

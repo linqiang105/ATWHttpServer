@@ -34,4 +34,21 @@ public class PageController {
 		return null;
 	}
 
+	@RequestMapping("testTodayRecordPage.do")
+	public String getTestTodayRecordPage(@RequestParam("userToken") String token, HttpServletRequest request,
+			HttpServletResponse response) {
+		if (incomeExpenseService.hasUserByToken(token).getStatus() == 0) {
+			return "testTodayRecord";
+		}
+		return null;
+	}
+
+	@RequestMapping("testMonthRecordPage.do")
+	public String getTestMonthRecordPage(@RequestParam("userToken") String token, HttpServletRequest request,
+			HttpServletResponse response) {
+		if (incomeExpenseService.hasUserByToken(token).getStatus() == 0) {
+			return "testMonthRecord";
+		}
+		return null;
+	}
 }

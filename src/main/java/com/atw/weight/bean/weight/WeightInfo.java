@@ -2,6 +2,10 @@ package com.atw.weight.bean.weight;
 
 import java.util.Date;
 
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
+import com.atw.weight.config.JsonDateSerializer;
+
 public class WeightInfo {
 
 	private int id;
@@ -9,7 +13,7 @@ public class WeightInfo {
 	private String carNo;
 	private String weightType;
 	private String sender;
-	private String shouHuo;
+	private String receiver;
 	private String goods;
 	private String spec;
 	private Double gross;
@@ -94,12 +98,12 @@ public class WeightInfo {
 		this.sender = sender;
 	}
 
-	public String getShouHuo() {
-		return shouHuo;
+	public String getReceiver() {
+		return receiver;
 	}
 
-	public void setShouHuo(String shouHuo) {
-		this.shouHuo = shouHuo;
+	public void setReceiver(String receiver) {
+		this.receiver = receiver;
 	}
 
 	public String getGoods() {
@@ -230,6 +234,7 @@ public class WeightInfo {
 		this.tareAddr = tareAddr;
 	}
 
+	@JsonSerialize(using = JsonDateSerializer.class)
 	public Date getGrossTime() {
 		return grossTime;
 	}
@@ -238,6 +243,7 @@ public class WeightInfo {
 		this.grossTime = grossTime;
 	}
 
+	@JsonSerialize(using = JsonDateSerializer.class)
 	public Date getTareTime() {
 		return tareTime;
 	}
@@ -246,6 +252,7 @@ public class WeightInfo {
 		this.tareTime = tareTime;
 	}
 
+	@JsonSerialize(using = JsonDateSerializer.class)
 	public Date getFirstTime() {
 		return firstTime;
 	}
@@ -254,6 +261,7 @@ public class WeightInfo {
 		this.firstTime = firstTime;
 	}
 
+	@JsonSerialize(using = JsonDateSerializer.class)
 	public Date getSecondTime() {
 		return secondTime;
 	}
@@ -270,6 +278,7 @@ public class WeightInfo {
 		this.updateUser = updateUser;
 	}
 
+	@JsonSerialize(using = JsonDateSerializer.class)
 	public Date getUpdateTime() {
 		return updateTime;
 	}

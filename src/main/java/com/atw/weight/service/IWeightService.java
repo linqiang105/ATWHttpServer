@@ -17,6 +17,7 @@ import com.atw.weight.vo.weight.ReceiverListResult;
 import com.atw.weight.vo.weight.SenderListResult;
 import com.atw.weight.vo.weight.SpecListResult;
 import com.atw.weight.vo.weight.WeightInfoListResult;
+import com.atw.weight.vo.weight.WeightStaticInfo;
 
 public interface IWeightService {
 
@@ -145,4 +146,23 @@ public interface IWeightService {
 	 * @return
 	 */
 	public boolean saveWeightInfo(WeightInfo weightInfo);
+
+	/**
+	 * 取测试数据（本日）
+	 * 
+	 * @return
+	 */
+	public WeightInfoListResult getTestTodayRecord();
+
+	public WeightStaticInfo getTestTodayStatic();
+
+	/**
+	 * 取测试数据（本月）
+	 * 
+	 * @return
+	 */
+	public WeightInfoListResult getTestMonthRecord();
+
+	public WeightStaticInfo getTestMonthStatic();
+
 }

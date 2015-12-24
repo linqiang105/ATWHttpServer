@@ -37,18 +37,12 @@ public class PageController {
 	@RequestMapping("testTodayRecordPage.do")
 	public String getTestTodayRecordPage(@RequestParam("userToken") String token, HttpServletRequest request,
 			HttpServletResponse response) {
-		if (incomeExpenseService.hasUserByToken(token).getStatus() == 0) {
-			return "testTodayRecord";
-		}
-		return null;
+		return "testTodayRecord";
 	}
 
 	@RequestMapping("testMonthRecordPage.do")
 	public String getTestMonthRecordPage(@RequestParam("userToken") String token, HttpServletRequest request,
 			HttpServletResponse response) {
-		if (incomeExpenseService.hasUserByToken(token).getStatus() == 0) {
-			return "testMonthRecord";
-		}
-		return null;
+		return "testMonthRecord";
 	}
 }

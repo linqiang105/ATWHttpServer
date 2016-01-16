@@ -455,4 +455,21 @@ public class WeightInfo {
 		this.backup18 = backup18;
 	}
 
+	@Override
+	public String toString() {
+		return "WeightInfo [id=" + id + ", glideNo=" + glideNo + ", carNo=" + carNo + ", weightType=" + weightType
+				+ ", sender=" + sender + ", receiver=" + receiver + ", goods=" + goods + ", spec=" + spec + ", gross="
+				+ gross + ", tare=" + tare + ", net=" + net + ", bundle=" + bundle + ", real=" + real + ", price="
+				+ price + ", sum=" + sum + ", scale=" + scale + ", quanter=" + quanter + ", cost=" + cost
+				+ ", grossMan=" + grossMan + ", tareMan=" + tareMan + ", grossAddr=" + grossAddr + ", tareAddr="
+				+ tareAddr + ", grossTime=" + grossTime + ", tareTime=" + tareTime + ", firstTime=" + firstTime
+				+ ", secondTime=" + secondTime + ", updateUser=" + updateUser + ", updateTime=" + updateTime + ", memo="
+				+ memo + ", printCount=" + printCount + ", upload=" + upload + ", backup1=" + backup1 + ", backup2="
+				+ backup2 + ", backup3=" + backup3 + ", backup4=" + backup4 + ", backup5=" + backup5 + ", backup6="
+				+ backup6 + ", backup7=" + backup7 + ", backup8=" + backup8 + ", backup9=" + backup9 + ", backup10="
+				+ backup10 + ", backup11=" + backup11 + ", backup12=" + backup12 + ", backup13=" + backup13
+				+ ", backup14=" + backup14 + ", backup15=" + backup15 + ", backup16=" + backup16 + ", backup17="
+				+ backup17 + ", backup18=" + backup18 + "]";
+	}
+
 }

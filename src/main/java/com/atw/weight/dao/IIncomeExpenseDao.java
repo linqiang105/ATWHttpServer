@@ -74,6 +74,7 @@ public interface IIncomeExpenseDao {
 	 * @return
 	 */
 	public List<InOutHistory> getHistory(Date startDate, Date endDate);
+
 	public List<InOutHistory> getAllHistory();
 
 	/**
@@ -133,4 +134,11 @@ public interface IIncomeExpenseDao {
 	 * @return
 	 */
 	public Project getProjectByName(String name);
+
+	/**
+	 * 取项目列表
+	 * 
+	 * @return
+	 */
+	public List<Project> getProjects();
 }

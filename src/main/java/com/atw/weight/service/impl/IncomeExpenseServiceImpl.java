@@ -13,12 +13,14 @@ import org.springframework.stereotype.Service;
 import com.atw.weight.bean.incomeExpense.Customer;
 import com.atw.weight.bean.incomeExpense.InOutHistory;
 import com.atw.weight.bean.incomeExpense.InOutItem;
+import com.atw.weight.bean.incomeExpense.Project;
 import com.atw.weight.bean.incomeExpense.User;
 import com.atw.weight.dao.IIncomeExpenseDao;
 import com.atw.weight.service.IIncomeExpenseService;
 import com.atw.weight.vo.CommonResult;
 import com.atw.weight.vo.incomeExpense.InOutHistoryListResult;
 import com.atw.weight.vo.incomeExpense.InOutItemListResult;
+import com.atw.weight.vo.incomeExpense.InOutProjectListResult;
 import com.atw.weight.vo.storage.CustomerListResult;
 
 @Service("incomeExpenseService")
@@ -98,9 +100,9 @@ public class IncomeExpenseServiceImpl implements IIncomeExpenseService {
 		inOutHistory.setProject(incomeExpenseDao.getProjectByName(project));
 		inOutHistory.setMoney(money);
 		inOutHistory.setDesc(desc);
-		inOutHistory.setCreateUser(incomeExpenseDao.getUserByName(name));
+		inOutHistory.setCreateUser(incomeExpenseDao.getUserByToken(name));
 		inOutHistory.setCreateTime(createTime1);
-		inOutHistory.setUpdateUser(incomeExpenseDao.getUserByName(name));
+		inOutHistory.setUpdateUser(incomeExpenseDao.getUserByToken(name));
 		inOutHistory.setUpdateTime(createTime1);
 		inOutHistory.setMemo(memo);
 
@@ -156,6 +158,16 @@ public class IncomeExpenseServiceImpl implements IIncomeExpenseService {
 		inOutHistoryList.setCount(listAll.size());
 		inOutHistoryList.setResult(listAll);
 		return inOutHistoryList; 
+	}
+
+	@Override
+	public InOutProjectListResult getInOutProjects() {
+		// TODO Auto-generated method stub
+		InOutProjectListResult inOutProjectList = new InOutProjectListResult();
+		List<Project> list = incomeExpenseDao.getProjects();
+		inOutProjectList.setCount(list.size());
+		inOutProjectList.setResult(list);
+		return inOutProjectList;
 	}
 
 }

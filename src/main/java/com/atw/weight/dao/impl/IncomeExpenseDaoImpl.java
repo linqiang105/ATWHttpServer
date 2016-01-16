@@ -605,4 +605,21 @@ public class IncomeExpenseDaoImpl implements IIncomeExpenseDao {
 		return listInOutHistory;
 	}
 
+	@Override
+	public List<Project> getProjects() {
+		// TODO Auto-generated method stub
+		List<Map<String, Object>> list = jdbcTemplate
+				.queryForList("select id,name from income_expense.dbo.tbl_project order by name");
+		List<Project> listProject = new ArrayList<Project>();
+		if ((null != list) && (list.size() > 0)) {
+			for (int i = 0; i < list.size(); i++) {
+				Project project = new Project();
+				project.setId(Integer.valueOf(list.get(i).get("id").toString()));
+				project.setName(list.get(i).get("name").toString());
+				listProject.add(project);
+			}
+		}
+		return listProject;
+	}
+
 }

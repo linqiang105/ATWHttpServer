@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.atw.weight.bean.weight.BackupInfo;
@@ -13,9 +15,11 @@ import com.atw.weight.bean.weight.Goods;
 import com.atw.weight.bean.weight.Receiver;
 import com.atw.weight.bean.weight.Sender;
 import com.atw.weight.bean.weight.Spec;
+import com.atw.weight.bean.weight.User;
 import com.atw.weight.bean.weight.WeightInfo;
 import com.atw.weight.dao.IWeightDao;
 import com.atw.weight.service.IWeightService;
+import com.atw.weight.vo.CommonResult;
 import com.atw.weight.vo.weight.AllWeightInfoResult;
 import com.atw.weight.vo.weight.BackupInfoListResult;
 import com.atw.weight.vo.weight.CarNoListResult;
@@ -28,6 +32,8 @@ import com.atw.weight.vo.weight.WeightStaticInfo;
 
 @Service("weightService")
 public class WeightServiceImpl implements IWeightService {
+
+	private static Logger log = LoggerFactory.getLogger(WeightServiceImpl.class);
 
 	@Resource(name = "weightDao")
 	private IWeightDao weightDao;
@@ -102,21 +108,37 @@ public class WeightServiceImpl implements IWeightService {
 		return null;
 	}
 
-	public boolean saveWeightInfo(WeightInfo weightInfo) {
+	public CommonResult saveWeightInfo(String userToken, WeightInfo weightInfo) {
 		// TODO Auto-generated method stub
-		return false;
+		CommonResult commonResult = new CommonResult();
+		
+		User user = weightDao.getUserByToken(userToken);
+		if (weightDao.saveWeightInfo(user,weightInfo)) {
+			commonResult.setStatus(0);
+		} else {
+			commonResult.setStatus(1);
+			commonResult.setMessage("保存数据到数据库失败");
+		}
+		return commonResult;
 	}
 
 	@Override
-	public boolean canWork(String imei) {
+	public CommonResult hasAuthority(String userToken) {
 		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public String getDbName(String imei) {
-		// TODO Auto-generated method stub
-		return null;
+		User user = weightDao.getUserByToken(userToken);
+		CommonResult commonResult = new CommonResult();
+		if (user == null) {
+			commonResult.setStatus(1);
+			commonResult.setMessage("你无权上传数据");
+			log.info("你无权上传数据");
+		} else if (user.isExpired()) {
+			commonResult.setStatus(1);
+			commonResult.setMessage("用户已过期，请续费！");
+			log.info("用户已过期，请续费！");
+		} else {
+			commonResult.setStatus(0);
+		}
+		return commonResult;
 	}
 
 	@Override

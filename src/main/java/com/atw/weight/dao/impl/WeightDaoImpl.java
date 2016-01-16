@@ -13,6 +13,8 @@ import javax.annotation.Resource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.atw.weight.bean.weight.Company;
+import com.atw.weight.bean.weight.User;
 import com.atw.weight.bean.weight.WeightInfo;
 import com.atw.weight.dao.IWeightDao;
 import com.atw.weight.vo.weight.WeightStaticInfo;
@@ -229,6 +231,85 @@ public class WeightDaoImpl implements IWeightDao {
 			}
 		}
 		return listWeightInfo;
+	}
+
+	@Override
+	public User getUserByToken(String userToken) {
+		// TODO Auto-generated method stub
+		List<Map<String, Object>> listUser = jdbcTemplate
+				.queryForList("select * from ATWCloudWeight.dbo.tbl_user where token=?", new Object[] { userToken });
+		if ((listUser != null) && (listUser.size() > 0)) {
+			User user = new User();
+			Map<String, Object> mUser = listUser.get(0);
+			user.setId(mUser.get("id") == null ? 0 : Integer.valueOf(mUser.get("id").toString()));
+			user.setUsername(mUser.get("username") == null ? "" : mUser.get("username").toString());
+			user.setPassword(mUser.get("password") == null ? "" : mUser.get("password").toString());
+			user.setTel(mUser.get("tel") == null ? "" : mUser.get("tel").toString());
+			user.setToken(mUser.get("token") == null ? "" : mUser.get("token").toString());
+			user.setCompany(mUser.get("company") == null ? null
+					: getCompanyById(Integer.valueOf(mUser.get("company").toString())));
+			user.setLeft(mUser.get("left") == null ? 0 : Double.valueOf(mUser.get("left").toString()));
+			try {
+				user.setExpireTime(mUser.get("expireTime") == null ? new Date()
+						: new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").parse(mUser.get("expireTime").toString()));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			user.setExpired(mUser.get("expired") == null ? false : Boolean.valueOf(mUser.get("expired").toString()));
+			return user;
+		}
+
+		return null;
+	}
+
+	@Override
+	public Company getCompanyById(int id) {
+		// TODO Auto-generated method stub
+		List<Map<String, Object>> listCompany = jdbcTemplate
+				.queryForList("select * from ATWCloudWeight.dbo.tbl_company where id=?", new Object[] { id });
+		if ((listCompany != null) && (listCompany.size() > 0)) {
+			Map<String, Object> mCompany = listCompany.get(0);
+			Company company = new Company();
+			company.setId(mCompany.get("id") == null ? 0 : Integer.valueOf(mCompany.get("id").toString()));
+			company.setCode(mCompany.get("code") == null ? "" : mCompany.get("code").toString());
+			company.setName(mCompany.get("name") == null ? "" : mCompany.get("name").toString());
+			company.setDbname(mCompany.get("dbname") == null ? "" : mCompany.get("dbname").toString());
+			return company;
+		}
+		return null;
+	}
+
+	@Override
+	public boolean saveWeightInfo(User user, WeightInfo weightInfo) {
+		// TODO Auto-generated method stub
+		String sql = "insert into ATWCloudWeight.dbo." + user.getCompany().getDbname()
+				+ "([glideNo],[carNo],[weightType],[sender],[receiver]," + "[goods],[spec],[gross],[tare],[net],"
+				+ "[bundle],[real],[price],[sum],[scale]," + "[quanter],[cost],[grossMan],[tareMan],[grossAddr],"
+				+ "[tareAddr],[grossTime],[tareTime],[firstTime],[secondTime],"
+				+ "[updateUser],[updateTime],[memo],[printCount],[upload],"
+				+ "[backup1],[backup2],[backup3],[backup4],[backup5],"
+				+ "[backup6],[backup7],[backup8],[backup9],[backup10],"
+				+ "[backup11],[backup12],[backup13],[backup14],[backup15]," + "[backup16],[backup17],[backup18]) "
+				+ "values (?,?,?,?,?," + "?,?,?,?,?," + "?,?,?,?,?," + "?,?,?,?,?," + "?,?,?,?,?," + "?,?,?,?,?,"
+				+ "?,?,?,?,?," + "?,?,?,?,?," + "?,?,?,?,?," + "?,?,?)";
+		return jdbcTemplate.update(sql,
+				new Object[] { weightInfo.getGlideNo(), weightInfo.getCarNo(), weightInfo.getWeightType(),
+						weightInfo.getSender(), weightInfo.getReceiver(), weightInfo.getGoods(), weightInfo.getSpec(),
+						weightInfo.getGross(), weightInfo.getTare(), weightInfo.getNet(), weightInfo.getBundle(),
+						weightInfo.getReal(), weightInfo.getPrice(), weightInfo.getSum(), weightInfo.getScale(),
+						weightInfo.getQuanter(), weightInfo.getCost(), weightInfo.getGrossMan(),
+						weightInfo.getTareMan(), weightInfo.getGrossAddr(), weightInfo.getTareAddr(),
+						weightInfo.getGrossTime(), weightInfo.getTareTime(), weightInfo.getFirstTime(),
+						weightInfo.getSecondTime(), weightInfo.getUpdateUser(), weightInfo.getUpdateTime(),
+						weightInfo.getMemo(), weightInfo.getPrintCount(), weightInfo.isUpload(),
+						weightInfo.getBackup1(), weightInfo.getBackup2(), weightInfo.getBackup3(),
+						weightInfo.getBackup4(), weightInfo.getBackup5(), weightInfo.getBackup6(),
+						weightInfo.getBackup7(), weightInfo.getBackup8(), weightInfo.getBackup9(),
+						weightInfo.getBackup10(), weightInfo.getBackup11(), weightInfo.getBackup12(),
+						weightInfo.getBackup13(), weightInfo.getBackup14(), weightInfo.getBackup15(),
+						weightInfo.getBackup16(), weightInfo.getBackup17(), weightInfo.getBackup18() }) > 0 ? true
+								: false;
+
 	}
 
 }

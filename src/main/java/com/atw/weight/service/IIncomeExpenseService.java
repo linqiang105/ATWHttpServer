@@ -7,6 +7,7 @@ import com.atw.weight.bean.incomeExpense.InOutItem;
 import com.atw.weight.vo.CommonResult;
 import com.atw.weight.vo.incomeExpense.InOutHistoryListResult;
 import com.atw.weight.vo.incomeExpense.InOutItemListResult;
+import com.atw.weight.vo.incomeExpense.InOutProjectListResult;
 import com.atw.weight.vo.storage.CustomerListResult;
 
 public interface IIncomeExpenseService {
@@ -50,7 +51,7 @@ public interface IIncomeExpenseService {
 	 * @return
 	 */
 	public InOutHistoryListResult getHistory(Date startDate, Date endDate);
-	
+
 	/**
 	 * 取未入账的收支明细 
 	 * 
@@ -91,6 +92,13 @@ public interface IIncomeExpenseService {
 	 * @return
 	 */
 	public InOutItemListResult getInOutItems();
+
+	/**
+	 * 下载收支项目
+	 * 
+	 * @return
+	 */
+	public InOutProjectListResult getInOutProjects();
 
 	/**
 	 * 新增一种收支条目

@@ -24,6 +24,7 @@ import com.atw.weight.vo.CommonResult;
 import com.atw.weight.vo.incomeExpense.BenefitResult;
 import com.atw.weight.vo.incomeExpense.InOutHistoryListResult;
 import com.atw.weight.vo.incomeExpense.InOutItemListResult;
+import com.atw.weight.vo.incomeExpense.InOutProjectListResult;
 
 @Controller("incomeExpenseController")
 @RequestMapping("incomeExpense")
@@ -92,6 +93,15 @@ public class IncomeExpenseController {
 		return inOutItemList;
 	}
 
+	@RequestMapping("inOutProject.do")
+	@ResponseBody
+	public InOutProjectListResult getInOutProject(HttpServletRequest request, HttpServletResponse response) {
+		log.info("取收支项目");
+		InOutProjectListResult inOutProjectList = incomeExpenseService.getInOutProjects();
+		inOutProjectList.setStatus(0);
+		return inOutProjectList;
+	}
+
 	@RequestMapping(value = "saveInOutItem.do", method = RequestMethod.POST)
 	@ResponseBody
 	public CommonResult saveInOutItem(@RequestParam("name") String name, HttpServletRequest request,
@@ -111,29 +121,26 @@ public class IncomeExpenseController {
 
 	@RequestMapping(value = "saveInOutHistory.do", method = RequestMethod.POST)
 	@ResponseBody
-	public CommonResult saveInOutHistory(@RequestParam("name") String name,
-			@RequestParam("createTime") String createTime, @RequestParam("inOutType") int inOutType,
-			@RequestParam("inOutItem") String inOutItem, @RequestParam("desc") String desc,
-			@RequestParam("money") Double money, @RequestParam("memo") String memo,
+	public CommonResult saveInOutHistory(@RequestParam("userToken") String userToken,
+			@RequestParam("inOutType") Boolean inOutType, @RequestParam("inOutItem") String inOutItem,
+			@RequestParam("desc") String desc, @RequestParam("money") Double money,
 			@RequestParam("project") String project, HttpServletRequest request, HttpServletResponse response) {
 		log.info("新增收支数据");
+		String memo = request.getParameter("memo");
+		int inOutType1 = inOutType ? 0 : 1;
+
 		CommonResult commonResult = new CommonResult();
 		try {
-			name = URLDecoder.decode(name, "utf-8");
-			Date createTime1 = new SimpleDateFormat("yyyyMMddHHmmss").parse(createTime);
-			inOutItem = URLDecoder.decode(inOutItem, "utf-8");
-			memo = URLDecoder.decode(memo, "utf-8");
-			project = URLDecoder.decode(project, "utf-8");
-			commonResult = incomeExpenseService.saveInOutHistory(name, createTime1, inOutType, inOutItem, desc, money,
-					memo, project);
-		} catch (UnsupportedEncodingException e) {
+			log.info(String.format("inOutItem:%s,desc:%s,project:%s", new Object[] { inOutItem, desc, project }));
+
+			Date createTime = new Date();
+			commonResult = incomeExpenseService.saveInOutHistory(userToken, createTime, inOutType1, inOutItem, desc,
+					money, memo, project);
+			log.info("保存收支数据成功");
+		} catch (Exception e) {
 			e.printStackTrace();
 			commonResult.setStatus(1);
 			commonResult.setMessage("UnsupportedEncodingException");
-		} catch (ParseException e) {
-			e.printStackTrace();
-			commonResult.setStatus(1);
-			commonResult.setMessage("ParseException");
 		}
 		return commonResult;
 	}

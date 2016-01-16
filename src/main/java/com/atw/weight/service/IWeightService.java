@@ -9,6 +9,7 @@ import com.atw.weight.bean.weight.Receiver;
 import com.atw.weight.bean.weight.Sender;
 import com.atw.weight.bean.weight.Spec;
 import com.atw.weight.bean.weight.WeightInfo;
+import com.atw.weight.vo.CommonResult;
 import com.atw.weight.vo.weight.AllWeightInfoResult;
 import com.atw.weight.vo.weight.BackupInfoListResult;
 import com.atw.weight.vo.weight.CarNoListResult;
@@ -27,14 +28,7 @@ public interface IWeightService {
 	 * @param imei
 	 * @return
 	 */
-	public boolean canWork(String imei);
-
-	/**
-	 * 取手机号对应的数据库名称
-	 * 
-	 * @return
-	 */
-	public String getDbName(String imei);
+	public CommonResult hasAuthority(String userToken);
 
 	/**
 	 * 下载车号列表
@@ -145,7 +139,7 @@ public interface IWeightService {
 	 * 
 	 * @return
 	 */
-	public boolean saveWeightInfo(WeightInfo weightInfo);
+	public CommonResult saveWeightInfo(String userToken, WeightInfo weightInfo);
 
 	/**
 	 * 取测试数据（本日）

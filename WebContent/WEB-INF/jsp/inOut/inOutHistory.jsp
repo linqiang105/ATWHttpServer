@@ -57,6 +57,6 @@
 
 	</div>
 
-	<script src="js/incomeExpense.js"></script>
+	<script src="js/inOut/incomeExpense.js"></script>
 </body>
 </html>

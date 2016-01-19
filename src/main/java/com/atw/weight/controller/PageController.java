@@ -23,7 +23,7 @@ public class PageController {
 		if (incomeExpenseService.hasUserByToken(token).getStatus() == 0) {
 			ModelAndView mav = new ModelAndView();
 			mav.addObject("userToken", token);
-			mav.setViewName("inOutHistory");
+			mav.setViewName("inOut/inOutHistory");
 			return mav;
 		}
 		return null;
@@ -35,21 +35,54 @@ public class PageController {
 		if (incomeExpenseService.hasUserByToken(token).getStatus() == 0) {
 			ModelAndView mav = new ModelAndView();
 			mav.addObject("userToken", token);
-			mav.setViewName("addInOut");
+			mav.setViewName("inOut/addInOut");
 			return mav;
 		}
 		return null;
 	}
 
 	@RequestMapping("testTodayRecordPage.do")
-	public String getTestTodayRecordPage(@RequestParam("userToken") String token, HttpServletRequest request,
-			HttpServletResponse response) {
-		return "testTodayRecord";
+	public String getTestTodayRecordPage(HttpServletRequest request, HttpServletResponse response) {
+		return "weightRecord/testTodayRecord";
 	}
 
 	@RequestMapping("testMonthRecordPage.do")
-	public String getTestMonthRecordPage(@RequestParam("userToken") String token, HttpServletRequest request,
-			HttpServletResponse response) {
-		return "testMonthRecord";
+	public String getTestMonthRecordPage(HttpServletRequest request, HttpServletResponse response) {
+		return "weightRecord/testMonthRecord";
+	}
+
+	@RequestMapping("testDaySenderStaticRecordPage.do")
+	public String getTestDaySenderStaticRecordPage(HttpServletRequest request, HttpServletResponse response) {
+		return "weightStatic/testDaySenderStaticRecord";
+	}
+
+	@RequestMapping("testDayReceiverStaticRecordPage.do")
+	public String getTestDayReceiverStaticRecordPage(HttpServletRequest request, HttpServletResponse response) {
+		return "weightStatic/testDayReceiverStaticRecord";
+	}
+
+	@RequestMapping("testDayGoodsStaticRecordPage.do")
+	public String getTestDayGoodsStaticRecordPage(HttpServletRequest request, HttpServletResponse response) {
+		return "weightStatic/testDayGoodsStaticRecord";
+	}
+
+	@RequestMapping("testMonthSenderStaticRecordPage.do")
+	public String getTestMonthSenderStaticRecordPage(HttpServletRequest request, HttpServletResponse response) {
+		return "weightStatic/testMonthSenderStaticRecord";
+	}
+
+	@RequestMapping("testMonthReceiverStaticRecordPage.do")
+	public String getTestMonthReceiverStaticRecordPage(HttpServletRequest request, HttpServletResponse response) {
+		return "weightStatic/testMonthReceiverStaticRecord";
+	}
+
+	@RequestMapping("testMonthGoodsStaticRecordPage.do")
+	public String getTestMonthGoodsStaticRecordPage(HttpServletRequest request, HttpServletResponse response) {
+		return "weightStatic/testMonthGoodsStaticRecord";
+	}
+
+	@RequestMapping("testDateStaticRecordPage.do")
+	public String getTestDateStaticRecordPage(HttpServletRequest request, HttpServletResponse response) {
+		return "weightStatic/testDateStaticRecord";
 	}
 }

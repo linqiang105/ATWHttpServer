@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="css/bootstrap.min.css">
 
 <script src="js/angular.min.js"></script>
-<script src="js/addInOut.js"></script>
+<script src="js/inOut/addInOut.js"></script>
 </head>
 <body ng-app="myApp" ng-controller="addInOutCtrl">
 	<div class="container">

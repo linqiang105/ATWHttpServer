@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.atw.weight.bean.weight.Company;
+import com.atw.weight.bean.weight.SingleStaticInfo;
 import com.atw.weight.bean.weight.User;
 import com.atw.weight.bean.weight.WeightInfo;
 import com.atw.weight.dao.IWeightDao;
@@ -310,6 +311,83 @@ public class WeightDaoImpl implements IWeightDao {
 						weightInfo.getBackup16(), weightInfo.getBackup17(), weightInfo.getBackup18() }) > 0 ? true
 								: false;
 
+	}
+
+	@Override
+	public List<SingleStaticInfo> getTestSingleStaticInfo(int timeType, String condition) {
+		// TODO Auto-generated method stub
+		StringBuilder sb = new StringBuilder();
+		sb.append("select ");
+		if ("carNo".equalsIgnoreCase(condition)) {
+			sb.append("车号 as condition,");
+		} else if ("sender".equalsIgnoreCase(condition)) {
+			sb.append("发货单位 as condition,");
+		} else if ("receiver".equalsIgnoreCase(condition)) {
+			sb.append("收货单位 as condition,");
+		} else if ("goods".equalsIgnoreCase(condition)) {
+			sb.append("货名 as condition,");
+		} else if ("date".equalsIgnoreCase(condition)) {
+			sb.append("CONVERT(varchar(10), 毛重时间, 120) as condition,");
+		}
+
+		sb.append(
+				"COUNT(1) AS C, SUM(毛重) AS GROSS,SUM(空重) AS TARE,SUM(净重) AS NET," + "SUM(扣重) AS BUNDLE,SUM(实重) AS REAL,"
+						+ "AVG(单价) AS PRICE,SUM(金额) AS [MONEY]," + "SUM(过磅费) AS COST FROM ATWWeight15.dbo.称重信息 ");
+
+		switch (timeType) {
+		case 0: {
+			sb.append("WHERE CONVERT(varchar(10), 毛重时间, 120) = CONVERT(varchar(10), GETDATE(), 120) ");
+			break;
+		}
+		case 1: {
+			sb.append("WHERE Month(毛重时间) = Month(GETDATE()) ");
+			break;
+		}
+		case 2: {
+			sb.append("WHERE Year(毛重时间) = Year(GETDATE()) ");
+			break;
+		}
+		default: {
+			sb.append("WHERE CONVERT(varchar(10), 毛重时间, 120) = CONVERT(varchar(10), GETDATE(), 120) ");
+			break;
+		}
+		}
+
+		if ("carNo".equalsIgnoreCase(condition)) {
+			sb.append("group by 车号 order by 车号");
+		} else if ("sender".equalsIgnoreCase(condition)) {
+			sb.append("group by 发货单位 order by 发货单位");
+		} else if ("receiver".equalsIgnoreCase(condition)) {
+			sb.append("group by 收货单位 order by 收货单位");
+		} else if ("goods".equalsIgnoreCase(condition)) {
+			sb.append("group by 货名 order by 货名");
+		} else if ("date".equalsIgnoreCase(condition)) {
+			sb.append("group by CONVERT(varchar(10), 毛重时间, 120) order by CONVERT(varchar(10), 毛重时间, 120)");
+		}
+
+		List<Map<String, Object>> list = jdbcTemplate.queryForList(sb.toString());
+		List<SingleStaticInfo> listSingleStaticInfo = new ArrayList<SingleStaticInfo>();
+		if ((list != null) && (list.size() > 0)) {
+			for (int i = 0; i < list.size(); i++) {
+				SingleStaticInfo singleStaticInfo = new SingleStaticInfo();
+				singleStaticInfo.setCondition(
+						list.get(i).get("condition") == null ? "" : list.get(i).get("condition").toString());
+				singleStaticInfo
+						.setCount(list.get(i).get("c") == null ? 0 : Integer.valueOf(list.get(i).get("c").toString()));
+				singleStaticInfo.setGross(list.get(i).get("gross") == null ? "0" : list.get(i).get("gross").toString());
+				singleStaticInfo.setTare(list.get(i).get("tare") == null ? "0" : list.get(i).get("tare").toString());
+				singleStaticInfo.setNet(list.get(i).get("net") == null ? "0" : list.get(i).get("net").toString());
+				singleStaticInfo
+						.setBundle(list.get(i).get("bundle") == null ? "0" : list.get(i).get("bundle").toString());
+				singleStaticInfo.setReal(list.get(i).get("real") == null ? "0" : list.get(i).get("real").toString());
+				singleStaticInfo.setPrice(list.get(i).get("price") == null ? "0" : list.get(i).get("price").toString());
+				singleStaticInfo.setSum(list.get(i).get("money") == null ? "0" : list.get(i).get("money").toString());
+				singleStaticInfo.setCost(list.get(i).get("cost") == null ? "0" : list.get(i).get("cost").toString());
+				singleStaticInfo.setQuanter("0");
+				listSingleStaticInfo.add(singleStaticInfo);
+			}
+		}
+		return listSingleStaticInfo;
 	}
 
 }

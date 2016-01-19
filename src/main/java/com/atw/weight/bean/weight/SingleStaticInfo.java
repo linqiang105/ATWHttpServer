@@ -1,7 +1,5 @@
 package com.atw.weight.bean.weight;
 
-import java.math.BigDecimal;
-
 /**
  * 单个查询条件实体类
  * 
@@ -15,25 +13,25 @@ public class SingleStaticInfo {
 	 * 车次
 	 */
 	private int count;
-	private BigDecimal gross;
-	private BigDecimal tare;
-	private BigDecimal net;
-	private BigDecimal bundle;
-	private BigDecimal real;
+	private String gross;
+	private String tare;
+	private String net;
+	private String bundle;
+	private String real;
 	/**
 	 * 平均单价
 	 */
-	private BigDecimal price;
-	private BigDecimal sum;
+	private String price;
+	private String sum;
 	/**
 	 * 方量
 	 */
-	private BigDecimal quanter;
+	private String quanter;
 
 	/**
 	 * 过磅费
 	 */
-	private BigDecimal cost;
+	private String cost;
 
 	public String getCondition() {
 		return condition;
@@ -51,75 +49,75 @@ public class SingleStaticInfo {
 		this.count = count;
 	}
 
-	public BigDecimal getGross() {
+	public String getGross() {
 		return gross;
 	}
 
-	public void setGross(BigDecimal gross) {
+	public void setGross(String gross) {
 		this.gross = gross;
 	}
 
-	public BigDecimal getTare() {
+	public String getTare() {
 		return tare;
 	}
 
-	public void setTare(BigDecimal tare) {
+	public void setTare(String tare) {
 		this.tare = tare;
 	}
 
-	public BigDecimal getNet() {
+	public String getNet() {
 		return net;
 	}
 
-	public void setNet(BigDecimal net) {
+	public void setNet(String net) {
 		this.net = net;
 	}
 
-	public BigDecimal getBundle() {
+	public String getBundle() {
 		return bundle;
 	}
 
-	public void setBundle(BigDecimal bundle) {
+	public void setBundle(String bundle) {
 		this.bundle = bundle;
 	}
 
-	public BigDecimal getReal() {
+	public String getReal() {
 		return real;
 	}
 
-	public void setReal(BigDecimal real) {
+	public void setReal(String real) {
 		this.real = real;
 	}
 
-	public BigDecimal getPrice() {
+	public String getPrice() {
 		return price;
 	}
 
-	public void setPrice(BigDecimal price) {
+	public void setPrice(String price) {
 		this.price = price;
 	}
 
-	public BigDecimal getSum() {
+	public String getSum() {
 		return sum;
 	}
 
-	public void setSum(BigDecimal sum) {
+	public void setSum(String sum) {
 		this.sum = sum;
 	}
 
-	public BigDecimal getQuanter() {
+	public String getQuanter() {
 		return quanter;
 	}
 
-	public void setQuanter(BigDecimal quanter) {
+	public void setQuanter(String quanter) {
 		this.quanter = quanter;
 	}
 
-	public BigDecimal getCost() {
+	public String getCost() {
 		return cost;
 	}
 
-	public void setCost(BigDecimal cost) {
+	public void setCost(String cost) {
 		this.cost = cost;
 	}
 

@@ -592,9 +592,10 @@ public class IncomeExpenseDaoImpl implements IIncomeExpenseDao {
 					e.printStackTrace();
 				}
 				inOutHistory.setProject(getProject(Integer.valueOf(list.get(i).get("project").toString())));
-				inOutHistory.setDesc(list.get(i).get("reason").toString());
-				inOutHistory.setMoney(Double.valueOf(list.get(i).get("price").toString()));
-				inOutHistory.setMemo(list.get(i).get("memo").toString());
+				inOutHistory.setDesc(list.get(i).get("reason") == null ? "" : list.get(i).get("reason").toString());
+				inOutHistory.setMoney(
+						Double.valueOf(list.get(i).get("price") == null ? "0" : list.get(i).get("price").toString()));
+				inOutHistory.setMemo(list.get(i).get("memo") == null ? "" : list.get(i).get("memo").toString());
 				InOutItem inOutItem = getInOutItem(Integer.valueOf(list.get(i).get("item").toString()));
 				inOutItem.setDirection(Integer.valueOf(list.get(i).get("type").toString()));
 				inOutHistory.setInOutItem(inOutItem);

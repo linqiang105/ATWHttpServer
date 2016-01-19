@@ -14,6 +14,7 @@ import com.atw.weight.bean.weight.CarNo;
 import com.atw.weight.bean.weight.Goods;
 import com.atw.weight.bean.weight.Receiver;
 import com.atw.weight.bean.weight.Sender;
+import com.atw.weight.bean.weight.SingleStaticInfo;
 import com.atw.weight.bean.weight.Spec;
 import com.atw.weight.bean.weight.User;
 import com.atw.weight.bean.weight.WeightInfo;
@@ -28,6 +29,7 @@ import com.atw.weight.vo.weight.ReceiverListResult;
 import com.atw.weight.vo.weight.SenderListResult;
 import com.atw.weight.vo.weight.SpecListResult;
 import com.atw.weight.vo.weight.WeightInfoListResult;
+import com.atw.weight.vo.weight.WeightSingleStaticListResult;
 import com.atw.weight.vo.weight.WeightStaticInfo;
 
 @Service("weightService")
@@ -111,9 +113,9 @@ public class WeightServiceImpl implements IWeightService {
 	public CommonResult saveWeightInfo(String userToken, WeightInfo weightInfo) {
 		// TODO Auto-generated method stub
 		CommonResult commonResult = new CommonResult();
-		
+
 		User user = weightDao.getUserByToken(userToken);
-		if (weightDao.saveWeightInfo(user,weightInfo)) {
+		if (weightDao.saveWeightInfo(user, weightInfo)) {
 			commonResult.setStatus(0);
 		} else {
 			commonResult.setStatus(1);
@@ -171,6 +173,41 @@ public class WeightServiceImpl implements IWeightService {
 	public WeightStaticInfo getTestMonthStatic() {
 		// TODO Auto-generated method stub
 		return weightDao.getTestMonthStatic();
+	}
+
+	@Override
+	public WeightSingleStaticListResult getTestSingleStaticList(int timeType, String condition) {
+		// TODO Auto-generated method stub
+		switch (timeType) {
+		case 0: {
+			log.info("取今日记录");
+			break;
+		}
+		case 1: {
+			log.info("取本月记录");
+			break;
+		}
+		case 2: {
+			log.info("取本年记录");
+			break;
+		}
+		}
+
+		if ("carNo".equalsIgnoreCase(condition)) {
+			log.info("按车号分组");
+		} else if ("sender".equalsIgnoreCase(condition)) {
+			log.info("按发货单位分组");
+		} else if ("receiver".equalsIgnoreCase(condition)) {
+			log.info("按收货单位分组");
+		} else if ("goods".equalsIgnoreCase(condition)) {
+			log.info("按货名分组");
+		} else if ("date".equalsIgnoreCase(condition)) {
+			log.info("按日期分组");
+		}
+		List<SingleStaticInfo> listSingleStaticInfo = weightDao.getTestSingleStaticInfo(timeType, condition);
+		WeightSingleStaticListResult weightSingleStaticListResult = new WeightSingleStaticListResult();
+		weightSingleStaticListResult.setResult(listSingleStaticInfo);
+		return weightSingleStaticListResult;
 	}
 
 }

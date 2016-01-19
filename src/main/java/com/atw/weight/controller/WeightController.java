@@ -18,6 +18,7 @@ import com.atw.weight.service.IWeightService;
 import com.atw.weight.vo.CommonResult;
 import com.atw.weight.vo.weight.CarNoListResult;
 import com.atw.weight.vo.weight.WeightInfoListResult;
+import com.atw.weight.vo.weight.WeightSingleStaticListResult;
 import com.atw.weight.vo.weight.WeightStaticInfo;
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 
@@ -71,6 +72,26 @@ public class WeightController {
 		log.info("取测试本月数据");
 		WeightStaticInfo weightStaticInfo = weightService.getTestMonthStatic();
 		return weightStaticInfo;
+	}
+
+	/**
+	 * 取测试统计数据
+	 * 
+	 * @param timeType，0---本日，1---本月，2---本年
+	 * @param condition，carNo,sender,receiver,goods,date
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(value = "getTestStaticInfo.do")//, method = RequestMethod.POST)
+	@ResponseBody
+	public WeightSingleStaticListResult getTestStaticInfo(@RequestParam("timeType") int timeType,
+			@RequestParam("condition") String condition, HttpServletRequest request, HttpServletResponse response) {
+		log.info("取测试统计数据");
+		WeightSingleStaticListResult weightSingleStaticListResult = weightService.getTestSingleStaticList(timeType,
+				condition);
+		weightSingleStaticListResult.setStatus(0);
+		return weightSingleStaticListResult;
 	}
 
 	@RequestMapping(value = "saveWeightInfo.do", method = RequestMethod.POST)

@@ -18,6 +18,7 @@ import com.atw.weight.vo.weight.ReceiverListResult;
 import com.atw.weight.vo.weight.SenderListResult;
 import com.atw.weight.vo.weight.SpecListResult;
 import com.atw.weight.vo.weight.WeightInfoListResult;
+import com.atw.weight.vo.weight.WeightSingleStaticListResult;
 import com.atw.weight.vo.weight.WeightStaticInfo;
 
 public interface IWeightService {
@@ -159,4 +160,5 @@ public interface IWeightService {
 
 	public WeightStaticInfo getTestMonthStatic();
 
+	public WeightSingleStaticListResult getTestSingleStaticList(int timeType, String condition);
 }
